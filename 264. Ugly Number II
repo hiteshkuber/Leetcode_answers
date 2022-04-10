@@ -1,0 +1,76 @@
+/*
+An ugly number is a positive integer whose prime factors are limited to 2, 3, and 5.
+
+Given an integer n, return the nth ugly number.
+
+Example 1:
+
+Input: n = 10
+Output: 12
+Explanation: [1, 2, 3, 4, 5, 6, 8, 9, 10, 12] is the sequence of the first 10 ugly numbers.
+Example 2:
+
+Input: n = 1
+Output: 1
+Explanation: 1 has no prime factors, therefore all of its prime factors are limited to 2, 3, and 5.
+ 
+
+Constraints:
+
+1 <= n <= 1690
+*/
+
+class Solution {
+    public int nthUglyNumber(int n) {
+        if(n==1)
+            return 1;
+        int point2=1,point3=1,point5=1, t2,t3,t5, pos=0,k=1;
+        int decoy = n;
+        List<Integer> ugly = new ArrayList();
+        ugly.add(1);
+        while(n!=0) {
+            t2 = 2*ugly.get(point2-1);
+            t3 = 3*ugly.get(point3-1);
+            t5 = 5*ugly.get(point5-1);
+
+            if(t2>t3){
+                if(t3<t5){
+                    if(ugly.contains(t3)){
+                        point3++;
+                        continue;
+                    }
+                    n--;
+                    ugly.add(t3);
+                    point3++;
+                } else {
+                    if(ugly.contains(t5)){
+                        point5++;
+                        continue;
+                    }
+                     n--;
+                    ugly.add(t5);
+                    point5++;
+                }
+            } else {
+                if(t2<t5){
+                    if(ugly.contains(t2)){
+                        point2++;
+                        continue;
+                    }
+                    n--;
+                    ugly.add(t2);
+                    point2++;
+                } else {
+                    if(ugly.contains(t5)){
+                        point5++;
+                        continue;
+                    }
+                    n--;
+                    ugly.add(t5);
+                    point5++;
+                }
+            }
+        }
+        return ugly.get(decoy-1);
+    }
+}
