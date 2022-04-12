@@ -61,7 +61,6 @@ public:
                 l1 = l1->next;
                 save=result;
             } else {
-                
                 prev = new ListNode(l1->val, result);
                 result = prev;
                 l1=l1->next;
