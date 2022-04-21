@@ -1,0 +1,67 @@
+/*
+Given the coordinates of four points in 2D space p1, p2, p3 and p4, return true if the four points construct a square.
+
+The coordinate of a point pi is represented as [xi, yi]. The input is not given in any order.
+
+A valid square has four equal sides with positive length and four equal angles (90-degree angles).
+
+ 
+
+Example 1:
+
+Input: p1 = [0,0], p2 = [1,1], p3 = [1,0], p4 = [0,1]
+Output: true
+Example 2:
+
+Input: p1 = [0,0], p2 = [1,1], p3 = [1,0], p4 = [0,12]
+Output: false
+Example 3:
+
+Input: p1 = [1,0], p2 = [-1,0], p3 = [0,1], p4 = [0,-1]
+Output: true
+ 
+
+Constraints:
+
+p1.length == p2.length == p3.length == p4.length == 2
+-104 <= xi, yi <= 104
+*/
+
+class Solution {
+    public boolean validSquare(int[] p1, int[] p2, int[] p3, int[] p4) {
+
+        
+        List<Double> list = new ArrayList();
+        list.add(getDistance(p1[0], p1[1], p2[0], p2[1]));
+        list.add(getDistance(p1[0], p1[1], p3[0], p3[1]));
+        list.add(getDistance(p1[0], p1[1], p4[0], p4[1]));
+        list.add(getDistance(p2[0], p2[1], p3[0], p3[1]));
+        list.add(getDistance(p2[0], p2[1], p4[0], p4[1]));
+        list.add(getDistance(p3[0], p3[1], p4[0], p4[1]));        
+        
+        Collections.sort(list);
+        
+        Double e1 = list.get(0);
+        if(Double.compare(list.get(3),list.get(4)) == 0) {
+                return false;
+        }
+
+        for(int i =1;i<4 ;i++) {
+            if(Double.compare(list.get(i),list.get(i-1)) != 0){
+                return false;
+            }
+        }
+        if(Double.compare(list.get(4),list.get(5)) != 0)
+            return false;
+        
+        return true;
+    }
+    
+    public double getDistance(int x1, int y1, int x2, int y2) {
+        double x = Math.abs(x1-x2);
+        x *= x;
+        double y = Math.abs(y1-y2);
+        y *= y;
+        return Math.sqrt(x+y);
+    }
+}
