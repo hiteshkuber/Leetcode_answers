@@ -1,0 +1,64 @@
+/*
+Given a string s, return the longest palindromic substring in s.
+
+ 
+
+Example 1:
+
+Input: s = "babad"
+Output: "bab"
+Explanation: "aba" is also a valid answer.
+Example 2:
+
+Input: s = "cbbd"
+Output: "bb"
+*/
+class Solution {
+    public String longestPalindrome(String s) {
+        if(s.length() == 1)
+            return s;
+        String palindrome ="";
+        int rt=-1,lt=-1;
+        int t_rt=-1,t_lt=-1;
+        for(int i=0;i<s.length();i++) {
+            t_lt = i;
+            t_rt = i;
+            while(t_lt!=-1 && t_rt!=s.length() && isPallindrome(t_rt,t_lt, s)) {
+                if((t_rt - t_lt) > (rt - lt)) {
+                    lt = t_lt;
+                    rt = t_rt;
+                }
+                t_lt--;
+                t_rt++;
+            }
+            if( i!=(s.length()-1))
+            if(s.charAt(i)==s.charAt(i+1)) {
+                t_lt = i;
+                t_rt = i+1;
+                while(t_lt!=-1 && t_rt!=s.length() && isPallindrome(t_rt,t_lt, s)) {
+                    if((t_rt - t_lt) > (rt - lt)) {
+                        lt = t_lt;
+                        rt = t_rt;
+                    }
+                    t_lt--;
+                    t_rt++;
+                }
+            }
+        }
+
+        if(lt - rt == 0)
+            return ""+s.charAt(0);
+        return result(lt, rt, s);
+    }
+    
+    public String result(int start, int end, String s) {
+        String res="";
+        for(int i =start;i<=end;i++)
+            res+=s.charAt(i);
+        return res;
+    }
+    
+    public boolean isPallindrome(int right,int left, String s) {
+        return s.charAt(left) == s.charAt(right);
+    } 
+}
