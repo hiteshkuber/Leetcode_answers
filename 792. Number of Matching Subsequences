@@ -1,0 +1,74 @@
+/*
+Given a string s and an array of strings words, return the number of words[i] that is a subsequence of s.
+
+A subsequence of a string is a new string generated from the original string with some characters (can be none) deleted without changing the relative order of the remaining characters.
+
+For example, "ace" is a subsequence of "abcde".
+ 
+
+Example 1:
+
+Input: s = "abcde", words = ["a","bb","acd","ace"]
+Output: 3
+Explanation: There are three strings in words that are a subsequence of s: "a", "acd", "ace".
+Example 2:
+
+Input: s = "dsahjpjauf", words = ["ahjpjau","ja","ahbwzgqnuk","tnmlanowax"]
+Output: 2
+ 
+
+Constraints:
+
+1 <= s.length <= 5 * 104
+1 <= words.length <= 5000
+1 <= words[i].length <= 50
+s and words[i] consist of only lowercase English letters.
+*/
+
+class Solution {
+    public int numMatchingSubseq(String s, String[] w) {
+        Map<Character, List<Integer>> map = new HashMap<Character, List<Integer>>();
+        char c = 'a';
+        for(int i=0;i<=25;i++) {
+            map.put((char) (c+i), new ArrayList());
+        }
+        
+        for(int i=0;i<s.length();i++) {
+            map.get(s.charAt(i)).add(i);
+            map.put(s.charAt(i), map.get(s.charAt(i)));
+        }
+                
+        int result = 0;
+        for(int i=0;i<w.length;i++) {
+            if(isSubsequence(w[i], map))
+                result++;
+        }
+        return result;
+    }
+    
+    private boolean isSubsequence(String s, Map<Character, List<Integer>> map) {
+        int[] pos = new int[26];
+        int prev = -1;
+        for(char c:s.toCharArray()) {
+             List<Integer> list = map.get(c);
+            boolean isTrue = false;
+            while(true) {
+                if(list.size()>pos[c-'a'] && list.get(pos[c-'a'])>prev) {
+                    prev = list.get(pos[c-'a']);
+                    pos[c-'a']++;
+                    break;
+                } else {
+                    pos[c-'a']++;
+                    if(list.size()<=pos[c-'a']) {
+                        isTrue=true;
+                        break;
+                    }
+                }
+            }
+            if(isTrue) {
+                return false;
+            }
+        }
+        return true;
+    }
+}
