@@ -26,20 +26,21 @@ Explanation: The last word is "joyboy" with length 6.
 
 class Solution {
     public int lengthOfLastWord(String s) {
-        int lastLongest = 0;
-        int currLen = 0;
+        int lastWordLEn = 0;
+        int currWordLen = 0;
 
         for(int i = 0; i < s.length(); i++) {
             if(s.charAt(i) == ' ') {
-                if(currLen > lastLongest)
-                    lastLongest = currLen;
-                currLen = 0;
+                if(currWordLen != 0)
+                    lastWordLEn = currWordLen;
+                currWordLen = 0;
                 continue;
             }
-            currLen++;
+            currWordLen++;
         }
-        if(currLen > lastLongest)
-            lastLongest = currLen;
-        return lastLongest;
+        if(currWordLen != 0)
+            lastWordLEn = currWordLen;
+
+        return lastWordLEn;
     }
 }
