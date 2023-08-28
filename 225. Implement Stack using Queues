@@ -1,0 +1,65 @@
+class MyStack {
+
+    MyStack bottom = null;
+    MyStack top = null;
+    int x;
+    public MyStack() {
+    }
+    
+    public void push(int x) {
+        if(bottom == null) {
+            bottom = new MyStack();
+            bottom.x = x;
+        } else {
+            MyStack temp=bottom;
+            while(temp.top != null) {
+                temp = temp.top;
+            }
+
+            MyStack newVal=new MyStack();
+            newVal.x = x;
+
+            temp.top = newVal;
+        }
+    }
+    
+    public int pop() {
+        int res = 0;
+        MyStack temp = bottom;
+        if(temp.top == null) {
+            res = temp.x; 
+            bottom = null;
+        } else if(temp.top.top == null) {
+            res = temp.top.x;
+            temp.top = null;
+        } else {
+            while(temp.top.top !=null) {
+                temp = temp.top;
+            }
+            res = temp.top.x;
+            temp.top = null;
+        }
+        return res; 
+    }
+    
+    public int top() {
+        MyStack temp = bottom;
+            while(temp.top !=null) {
+                temp = temp.top;
+            }
+        return temp.x;
+    }
+    
+    public boolean empty() {
+        return bottom == null;
+    }
+}
+
+/**
+ * Your MyStack object will be instantiated and called as such:
+ * MyStack obj = new MyStack();
+ * obj.push(x);
+ * int param_2 = obj.pop();
+ * int param_3 = obj.top();
+ * boolean param_4 = obj.empty();
+ */
