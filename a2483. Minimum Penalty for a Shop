@@ -1,0 +1,37 @@
+class Solution {
+    public int bestClosingTime(String customers) {
+        int len = customers.length();
+        int res[] = new int[len + 1];
+        int Y = 0, N = 0;
+
+        for(int i = 0; i < len; i++) {
+            if(customers.charAt(i) == 'Y') {
+                Y++;
+            } else {
+                N++;
+            }
+        }
+
+        res[0] = Y;
+        for(int i = 0; i < len; i++) {
+            if(customers.charAt(i) == 'Y') {
+                Y--;
+                res[i + 1] = res[i] - 1;
+            } else {
+                N--;
+                res[i + 1] = res[i] + 1;
+            }
+        }
+
+        int pos = 0;
+        int min = res[pos];
+        for(int i = 1; i <= len; i++) {
+            if(res[i] < min ) {
+                pos = i;
+                min = res[i];
+            }
+        }
+
+       return pos;
+    }
+}
