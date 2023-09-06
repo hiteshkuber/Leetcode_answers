@@ -1,0 +1,74 @@
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
+class Solution {
+    public ListNode[] splitListToParts(ListNode head, int k) {
+        ListNode trav = head;
+        int len = 1;
+        ListNode res[] = new ListNode[k];
+
+        if(trav != null) {
+            while(trav.next != null) {
+                trav = trav.next;
+                len++;
+                // System.out.println(trav);
+            }
+        } else {
+            for(int i=0; i<k; i++) {
+                    res[i] = null;
+            }
+        }
+
+        trav = head;
+
+        if(len >= k) {
+            int partSize = len / k;
+            int partSize_ex = partSize + 1;
+            int extraBig = len % k;
+            if(extraBig == 0) {
+                partSize_ex--;
+            }
+
+            for(int i = 0; i < k ; i++) {
+                res[i] = trav;
+                for(int j = 0; j < partSize_ex; j++) {
+                    ListNode trav_2 = trav;
+                    trav = trav.next;
+                    
+                    if(j == (partSize_ex -1)) {
+                        trav_2.next = null;
+                    }
+
+                }
+                extraBig--;
+
+                if(partSize_ex != partSize && extraBig == 0 ) {
+                    partSize_ex--;
+                }
+            }
+
+        } else {
+
+            for(int i=0; i<k; i++) {
+                if(trav != null) {
+                    res[i] = trav;
+
+                    ListNode trav_2 = trav.next;
+                    trav.next = null;
+                    trav = trav_2;
+                } else {
+                    res[i] = null;
+                }
+            }
+
+        }
+            return res;
+    }
+}
