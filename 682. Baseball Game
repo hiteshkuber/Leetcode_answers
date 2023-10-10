@@ -49,7 +49,7 @@ ops[i] is "C", "D", "+", or a string representing an integer in the range [-3 * 
 For operation "+", there will always be at least two previous scores on the record.
 For operations "C" and "D", there will always be at least one previous score on the record.
 */
-
+/**
 class Solution {
     public int calPoints(String[] ops) {
         List<Integer> result = new ArrayList();
@@ -74,5 +74,35 @@ class Solution {
         for(int i=0;i<l;i++)
             sum+=result.get(i);
         return sum;
+    }
+}
+**/
+// Using stack -- better approach
+class Solution {
+    public int calPoints(String[] op) {
+        int result = 0;
+        Stack<Integer> st = new Stack();
+
+        for(String s: op) {
+            if(s.equals("C")) {
+                st.pop();
+            } else if(s.equals("D")) {
+                st.push(st.peek()*2);
+            } else if(s.equals("+")) {
+                int num2 = st.pop();
+                int num1 = st.pop();
+                st.push(num1);
+                st.push(num2);
+                st.push(num1 + num2);
+            } else {
+                st.push(Integer.parseInt(s));
+            }
+        }
+
+        while(!st.isEmpty()) {
+            result += st.pop();
+        }
+
+        return result;
     }
 }
