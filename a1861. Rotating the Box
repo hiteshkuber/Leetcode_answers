@@ -1,0 +1,19 @@
+class Solution:
+    def rotateTheBox(self, box: List[List[str]]) -> List[List[str]]:
+        result = []
+        for row in box:
+            col = []
+            pos = 0
+            for data in range(len(row)):
+                if row[data] == '.':
+                    col.insert(pos, '.')
+                if row[data] == '*':
+                    pos = data + 1
+                    col.append(row[data])
+                if row[data] == '#':
+                    col.append(row[data])
+            result.append(col)
+
+        rotated = [[row[i] for row in result[::-1]] for i in range(len(result[0]))]
+
+        return rotated
